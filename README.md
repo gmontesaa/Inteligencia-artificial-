@@ -1,18 +1,17 @@
-Inteligencia Artificial - Ejercicios de Búsqueda y Rutas Óptimas
-
-Este repositorio contiene tres ejercicios enfocados en la implementación de algoritmos de búsqueda y optimización de rutas en diferentes contextos: búsqueda A*, resolución de laberintos con costos de terreno, y comparación entre BFS e IDS en un grafo de estaciones.
+Informe 1
 
 Contenido
 
-Ejercicio 1 → Implementación genérica de A* para problemas de búsqueda de rutas.
+Ejercicio 1 
 
-Ejercicio 2 → Búsqueda en un laberinto con múltiples salidas y costos variables por terreno.
+Ejercicio 2 
 
-Ejercicio 3 → Comparación de BFS e IDS en un grafo de estaciones.
+Ejercicio 3
 
-Ejercicio 1 - Algoritmo A* genérico
+**Ejercicio 1**
 
 Análisis del problema
+
 El objetivo es encontrar la secuencia de acciones que lleva desde un estado inicial hasta un estado objetivo con el menor costo total posible.
 El problema se modela con:
 
@@ -26,7 +25,9 @@ Función de costo.
 
 Heurística para estimar la distancia a la meta.
 
+
 Aplicación de A*
+
 A* combina:
 f(n) = g(n) + h(n)
 
@@ -37,7 +38,9 @@ h(n): costo estimado hasta la meta.
 El nodo con menor f(n) se expande primero.
 La búsqueda termina cuando se alcanza la meta, garantizando optimalidad si la heurística es admisible.
 
-Optimalidad
+
+¿Por qué se considera que la ruta encontrada es óptima?
+
 
 Cola de prioridad para expandir el nodo más prometedor.
 
@@ -45,9 +48,12 @@ Registro de estados visitados para evitar rutas más caras.
 
 Si la heurística no sobreestima, el camino encontrado es el más barato posible.
 
-Ejercicio 2 - Laberinto con múltiples salidas y costos de terreno
 
-Efecto de cambiar la función de costo
+**Ejercicio 2**
+
+
+¿Cómo cambia el comportamiento del algoritmo si cambiamos la función de costo?
+
 
 Penalizar ciertos terrenos → el algoritmo evita zonas costosas aunque sean más cortas en distancia.
 
@@ -55,7 +61,10 @@ Costos uniformes → se comporta como BFS.
 
 Costos negativos → puede perder optimalidad y generar bucles.
 
-Múltiples salidas
+
+Qué sucede si hay múltiples salidas en el laberinto? ¿Cómo podrías modificar el algoritmo para manejar esto? Plantea una
+propuesta.
+
 
 El código ya acepta varias metas en la lista goals.
 
@@ -67,7 +76,10 @@ Laberinto más grande y nuevos obstáculos
 
 El algoritmo sigue funcionando mientras los costos sean positivos.
 
-Limitaciones:
+
+Modifica el laberinto por uno más grande y con otro tipo de obstáculo además de paredes. ¿Qué limitación encuentras en el
+algoritmo? 
+
 
 Más tiempo y memoria en mapas grandes.
 
@@ -77,15 +89,27 @@ Limitación detectada
 
 La heurística no contempla costos adicionales del terreno, lo que reduce la eficiencia.
 
-Ejercicio 3 - Comparación BFS vs IDS en un grafo de estaciones
 
-Diseño del grafo
+**Ejercicio 3** 
+
+Realice el diseño del grafo considerando un costo de igual valor
+entre estaciones.
+
+A -- B -- D -- G
+| |
+C E -- H
+|
+I -- J
+C -- F -- J
+
 
 Red de estaciones con costo uniforme en todas las aristas.
 
 Representada como diccionario de adyacencia.
 
-Implementación
+
+Implementación: Haz las definiciones pertinentes para la clase Node y Problem así como también la definición de actions.
+
 
 Clase Node: estado, padre, acción, profundidad.
 
@@ -93,7 +117,9 @@ Clase Problem: estado inicial, meta, acciones y resultado.
 
 Función reconstruct_path para obtener la ruta encontrada.
 
-Algoritmos
+
+Algoritmos: Implementa dos versiones del algoritmo de búsqueda:
+
 
 BFS
 
@@ -111,19 +137,30 @@ DFS con límite de profundidad creciente.
 
 Menor consumo de memoria.
 
-Comparación
-Algoritmo | Tiempo | Memoria | Ventaja | Desventaja
-BFS | Bajo | Alto | Siempre óptimo en pasos | Alto uso de memoria
-IDS | Mayor | Bajo | Bajo consumo de memoria | Repetición de nodos
+Comparación: Ejecuta ambos algoritmos para encontrar la ruta más corta entre las estaciones A y J. Compara los resultados obtenidos en
+términos de tiempo de ejecución y memoria.
 
-Conclusiones generales
 
-A* es ideal cuando se dispone de una heurística informada y se busca optimalidad en costo.
+Explica las diferencias encontradas entre ambos algoritmos.
 
-Laberintos con múltiples salidas requieren modificaciones para evaluar todas las metas posibles.
+BFS:
+Tiempo: bajo, ya que explora cada nodo una sola vez.
+Memoria: mayor consumo debido a almacenar muchos nodos en la frontera.
+Ventaja: siempre retorna la solución más corta en pasos.
 
-BFS es óptimo en pasos, pero consume mucha memoria en grafos grandes.
+IDS:
+Tiempo: mayor, por repeticiones de exploración.
+Memoria: menor que BFS, ya que la profundidad límite controla el espacio usado.
+Ventaja: consumo de memoria reducido comparado con BFS.
 
-IDS ahorra memoria, pero sacrifica tiempo por repeticiones.
 
-La elección del algoritmo depende del tipo de problema, tamaño del espacio de búsqueda y recursos disponibles.
+Diferencias clave
+BFS:
+Expande por niveles.
+Óptimo en pasos si el grafo no pondera costos.
+Alto consumo de memoria en grafos grandes.
+
+IDS:
+Óptimo en pasos, pero más lento debido a repeticiones.
+Bajo consumo de memoria.
+Adecuado cuando no sabemos la profundidad de la meta y la memoria es limitada.
